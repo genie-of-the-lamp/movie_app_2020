@@ -1,6 +1,6 @@
 import React from "react";
-// 생명주기 함수 동작 순서 render() -> componentDidMount()
-// 즉 이렇게 코드 작성 시 바로 /movie-detail 로 접근 시 에러 발생함.
+import "./Detail.css";
+
 class Detail extends React.Component {
   componentDidMount() {
     const { location, history } = this.props;
@@ -9,8 +9,28 @@ class Detail extends React.Component {
     }
   }
   render() {
-    const { location } = this.props;
-    return <span>{location.state.title}</span>;
+    const { state } = this.props.location;
+    // year, title, summary, poster, genres
+    if (state) {
+      return (
+        <div className="detail">
+          <h1>
+            {state.title} <span>({state.year})</span>
+          </h1>
+          <div className="genres">
+            {state.genres.map((genre, index) => {
+              return <span key={index}>{genre}</span>;
+            })}
+          </div>
+          <div>
+            <img src={state.poster} alt={state.title} />
+            <p>{state.summary}</p>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
